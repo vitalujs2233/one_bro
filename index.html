@@ -49,7 +49,6 @@
             display: inline-block;
             text-decoration: none;
             color: inherit;
-            /* Убрали стандартный scale при active, чтобы не ломать анимацию заполнения */
             -webkit-touch-callout: default; 
         }
 
@@ -109,8 +108,8 @@
 
     <p class="subtitle">Выберите "Открыть ссылку (в браузере)" / choose "open link"</p>
 
-    <!-- Ссылка на ваш сайт -->
-    <a href="https://example.com" class="print-link" id="target-link">
+    <!-- Ваша реферальная ссылка здесь -->
+    <a href="https://nord.affpmelody.com/click?pid=12519&offer_id=25" class="print-link" id="target-link" target="_blank">
         <div class="fingerprint-icon" id="fingerprint"></div>
         <div class="print-text">Отпечаток пальца</div>
     </a>
@@ -133,7 +132,7 @@
 
             // Если пользователь удерживает палец 1.5 секунды (1500 миллисекунд), перенаправляем по ссылке
             holdTimeout = setTimeout(() => {
-                window.location.href = targetLink.href;
+                window.open(targetLink.href, '_blank'); // Открываем вашу реферальную ссылку в новой вкладке
             }, 1500); 
         }
 
