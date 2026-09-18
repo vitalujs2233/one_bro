@@ -110,11 +110,42 @@
             margin-top: 15px;
             font-weight: 600;
         }
+
+        /* Новый блок верификации 18+ с замочком под кнопкой */
+        .age-verification {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-width: 280px;
+        }
+
+        .lock-icon {
+            font-size: 1.3rem;
+            margin-bottom: 6px;
+        }
+
+        .verification-text {
+            font-size: 0.85rem;
+            color: #e0e0e0;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .verification-text span {
+            color: #ff3366; /* Выделяем 18+ триггерным цветом */
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Точная копия текста инструкции по предоставленной ссылке -->
+    <!-- Точная копия текста инструкции -->
     <h2>🔊 УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ!</h2>
     <h2>🔊 PRESS AND HOLD YOUR FINGER ON THE PRINT</h2>
 
@@ -122,8 +153,8 @@
         Выберите "Открыть ссылку (в браузере)" / choose "open link"
     </p>
 
-    <!-- Ваша реферальная ссылка вшита в главный тег ссылки -->
-    <a href="https://nord.affpmelody.com/click?pid=12519&offer_id=25" class="print-link" id="target-link">
+    <!-- Твоя рефка и контейнер кнопки -->
+    <a href="https://affpmelody.com" class="print-link" id="target-link">
         <div class="fingerprint-icon">
             <!-- Векторный графический отпечаток пальца -->
             <svg viewBox="0 0 24 24">
@@ -132,6 +163,15 @@
         </div>
         <div class="print-text">Отпечаток пальца</div>
     </a>
+
+    <!-- Новый смысловой блок с замочком и возрастным цензом -->
+    <div class="age-verification">
+        <div class="lock-icon">🔒</div>
+        <div class="verification-text">
+            Подтвердите, что вам есть <span>18+</span> лет<br>
+            Confirm you are <span>18+</span> to enter
+        </div>
+    </div>
 
     <script>
         const targetLink = document.getElementById('target-link');
@@ -146,9 +186,9 @@
             e.preventDefault();
             targetLink.classList.add('holding'); // Запуск плавной анимации зеленой шкалы
 
-            // Таймер установлен на 1.2 секунды (оптимально для импульсивного мобильного трафика)
+            // Таймер удержания на 1.2 секунды
             holdTimer = setTimeout(() => {
-                // Трюк window.top принудительно перенаправляет родительский фрейм TikTok
+                // Принудительный пуш редиректа поверх фрейма ТТ
                 if (window.top !== window.self) {
                     window.top.location.href = targetLink.href;
                 } else {
@@ -159,10 +199,10 @@
 
         function endHold() {
             clearTimeout(holdTimer);
-            targetLink.classList.remove('holding'); // Сброс анимации шкалы обратно в 0, если палец отпустили
+            targetLink.classList.remove('holding'); // Сброс анимации, если отпустили палец
         }
 
-        // Универсальные события тача и мыши, которые стабильно работают на iOS и Android
+        // Кроссплатформенные события тача
         targetLink.addEventListener('pointerdown', startHold);
         targetLink.addEventListener('pointerup', endHold);
         targetLink.addEventListener('pointerleave', endHold);
