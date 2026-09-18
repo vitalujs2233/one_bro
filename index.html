@@ -19,11 +19,8 @@
             padding: 20px;
             box-sizing: border-box;
             text-align: center;
-            
-            /* Жестко запрещаем выделение и вызов меню во всем body */
-            user-select: none;
+            user-select: none; /* Запрещаем выделение текста */
             -webkit-user-select: none;
-            -webkit-touch-callout: none;
         }
 
         /* Анимация пульсации для заголовков */
@@ -50,16 +47,12 @@
             margin-bottom: 40px;
         }
 
-        /* Контейнер для отпечатка пальца — теперь это ТЕГ DIV, а не ССЫЛКА, 
-           чтобы браузер TikTok не понимал, что это линк, и не вызывал меню предпросмотра! */
-        .print-btn {
+        /* Контейнер для отпечатка пальца — ВОЗВРАЩЕН СТАНДАРТНЫЙ ТЕГ ССЫЛКИ */
+        .print-link {
             display: inline-block;
+            text-decoration: none;
             color: inherit;
-            cursor: pointer;
-            /* Полностью отключаем системное меню iOS на элементе */
-            -webkit-touch-callout: none !important;
-            -webkit-user-select: none !important;
-            user-select: none !important;
+            -webkit-touch-callout: default; /* Разрешает вызов меню TikTok, как на скриншоте */
         }
 
         /* Стилизация графического элемента отпечатка */
@@ -73,7 +66,8 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            overflow: hidden;
+            overflow: hidden; /* Чтобы шкала не вылезала за границы круга */
+            cursor: pointer;
             box-shadow: 0 0 15px rgba(0,0,0,0.5);
         }
 
@@ -96,18 +90,18 @@
             height: 100%;
             background: linear-gradient(0deg, rgba(46, 204, 113, 0.7) 0%, rgba(46, 204, 113, 0.3) 100%);
             border-radius: 50%;
-            transform: scale(0);
-            transition: transform 1.2s linear; /* Заполнение за 1.2 секунды */
+            transform: scale(0); /* Изначально скрыта */
+            transition: transform 1.2s linear; /* Заполнение за 1.2 секунды под быстрый ТТ-трафик */
             z-index: 1;
         }
 
         /* Класс, который добавляется при зажатии */
-        .print-btn.holding .fingerprint-icon::after {
+        .print-link.holding .fingerprint-icon::after {
             transform: scale(1);
         }
 
-        .print-btn.holding svg {
-            fill: #2ecc71;
+        .print-link.holding svg {
+            fill: #2ecc71; /* Сам отпечаток подсвечивается зеленым при удержании */
         }
 
         .print-text {
@@ -117,10 +111,10 @@
             font-weight: 600;
         }
 
-        /* Блок верификации 18+ — выравнивание в одну линию */
+        /* Блок верификации 18+ — выравнивание в одну линию (замок слева) */
         .age-verification {
             display: flex;
-            flex-direction: row;
+            flex-direction: row; /* Элементы выстраиваются в ряд */
             align-items: center;
             justify-content: center;
             margin-top: 25px;
@@ -134,7 +128,7 @@
 
         .lock-icon {
             font-size: 1.2rem;
-            margin-right: 10px;
+            margin-right: 10px; /* Отступ справа от замочка до текста */
             display: flex;
             align-items: center;
         }
@@ -144,17 +138,18 @@
             color: #e0e0e0;
             line-height: 1.4;
             font-weight: 500;
-            text-align: left;
+            text-align: left; /* Текст выравнивается по левому краю для аккуратности */
         }
 
         .verification-text span {
-            color: #ff3366;
+            color: #ff3366; /* Выделяем 18+ триггерным цветом */
             font-weight: bold;
         }
     </style>
 </head>
 <body>
 
+    <!-- Точная копия текста инструкции -->
     <h2>🔊 УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ!</h2>
     <h2>🔊 PRESS AND HOLD YOUR FINGER ON THE PRINT</h2>
 
@@ -162,17 +157,18 @@
         Выберите "Открыть ссылку (в браузере)" / choose "open link"
     </p>
 
-    <!-- ИЗМЕНЕНИЕ: Мы заменили тег 'a' на 'div'. Теперь TikTok вообще не видит тут ссылку заранее, 
-         поэтому контекстное окно с блокировкой как на твоем скриншоте БОЛЬШЕ НЕ ОТКРОЕТСЯ -->
-    <div class="print-btn" id="target-block">
+    <!-- ТВОЯ ССЫЛКА ОСТАЕТСЯ ЗДЕСЬ (Скрипт автоматически продублирует её из переменной MY_REFERRAL_URL) -->
+    <a href="https://affpmelody.com" class="print-link" id="target-link">
         <div class="fingerprint-icon">
+            <!-- Векторный графический отпечаток пальца -->
             <svg viewBox="0 0 24 24">
                 <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9,21.55 9.17,21.5 9.29,21.37C9.41,21.25 9.47,21.08 9.44,20.91L9,18.5C10,19 11,19.25 12,19.25C13,19.25 14,19 15,18.5L14.56,20.91C14.53,21.08 14.59,21.25 14.71,21.37C14.83,21.5 15,21.55 15.16,21.5C19.13,20.17 22,16.42 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.62 18.73,16.94 16.77,18.41L17.29,15.5C18.38,14.54 19,13.25 19,11.75A7,7 0 0,0 12,4.75A7,7 0 0,0 5,11.75C5,13.25 5.62,14.54 6.71,15.5L7.23,18.41C5.27,16.94 4,14.62 4,12A8,8 0 0,1 12,4M12,6.75A5,5 0 0,0 7,11.75C7,12.75 7.42,13.65 8.1,14.3L7.75,16.25C6.67,15.25 6,13.62 6,11.75A6,6 0 0,1 12,5.75A6,6 0 0,1 18,11.75C18,13.62 17.33,15.25 16.25,16.25L15.9,14.3C16.58,13.65 17,12.75 17,11.75A5,5 0 0,0 12,6.75M12,8.75A3,3 0 0,0 9,11.75C9,12.25 9.17,12.75 9.45,13.13L9.05,14.25C8.4,13.63 8,12.75 8,11.75A4,4 0 0,1 12,7.75A4,4 0 0,1 16,11.75C16,12.75 15.6,13.63 14.95,14.25L14.55,13.13C14.83,12.75 15,12.25 15,11.75A3,3 0 0,0 12,8.75M12,10.75A1,1 0 0,0 11,11.75A1,1 0 0,0 12,12.75A1,1 0 0,0 13,11.75A1,1 0 0,0 12,10.75Z"/>
             </svg>
         </div>
         <div class="print-text">Отпечаток пальца</div>
-    </div>
+    </a>
 
+    <!-- Блок верификации с замочком слева -->
     <div class="age-verification">
         <div class="lock-icon">🔒</div>
         <div class="verification-text">
@@ -189,57 +185,35 @@
         const MY_REFERRAL_URL = "https://nord.affpmelody.com/click?pid=12519&offer_id=25";
         // =========================================================================
 
-        const targetBlock = document.getElementById('target-block');
+        const targetLink = document.getElementById('target-link');
         let holdTimer;
 
-        // Полностью глушим контекстное меню iOS/Android на уровне скрипта
-        window.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-            return false;
-        });
+        // Синхронизируем ссылку из скрипта с тегом <a> при загрузке
+        targetLink.href = MY_REFERRAL_URL;
 
         function startHold(e) {
-            e.preventDefault();
-            targetBlock.classList.add('holding'); // Запуск анимации зеленой шкалы
+            targetLink.classList.add('holding'); // Запуск плавной анимации зеленой шкалы
 
-            // Таймер удержания на 1.2 секунды
+            // Таймер автоматического перехода (если TikTok его пропустит)
             holdTimer = setTimeout(() => {
-                
-                // ТРЮК ДЛЯ ОБХОДА БЛОКИРОВОК TIKTOK:
-                // Мы не делаем редирект через скрипт напрямую. Мы динамически создаем 
-                // чистую скрытую кнопку, прописываем ей рефку и симулируем реальный физический клик юзера.
-                // Для роботов TikTok это выглядит как естественное нажатие на внешнюю ссылку.
-                const hiddenAnchor = document.createElement('a');
-                hiddenAnchor.href = MY_REFERRAL_URL;
-                hiddenAnchor.rel = 'noopener noreferrer';
-                
-                // Пробиваем In-App Frame TikTok
                 if (window.top !== window.self) {
-                    hiddenAnchor.target = '_top';
+                    window.top.location.href = MY_REFERRAL_URL;
                 } else {
-                    hiddenAnchor.target = '_self';
+                    window.location.href = MY_REFERRAL_URL;
                 }
-                
-                document.body.appendChild(hiddenAnchor);
-                hiddenAnchor.click(); // Симуляция нативного клика
-                document.body.removeChild(hiddenAnchor);
-
             }, 1200);
         }
 
         function endHold() {
             clearTimeout(holdTimer);
-            targetBlock.classList.remove('holding'); // Сброс шкалы в 0
+            targetLink.classList.remove('holding'); // Сброс шкалы в 0
         }
 
-        // Кроссплатформенные события тача без конфликтов с жестами операционной системы
-        targetBlock.addEventListener('pointerdown', startHold);
-        targetBlock.addEventListener('pointerup', endHold);
-        targetBlock.addEventListener('pointerleave', endHold);
-        
-        // Дополнительная защита для старых моделей iPhone
-        targetBlock.addEventListener('touchstart', (e) => e.preventDefault(), {passive: false});
-    </style>
+        // Привязываем события удержания
+        targetLink.addEventListener('pointerdown', startHold);
+        targetLink.addEventListener('pointerup', endHold);
+        targetLink.addEventListener('pointerleave', endHold);
+    </script>
 
 </body>
 </html>
