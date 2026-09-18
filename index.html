@@ -185,8 +185,8 @@
 </head>
 <body>
 
-    <!-- Универсальная арбитражная фраза, которая бьет в цель без сторонних скриптов -->
-    <div class="status-box">🔥 НАЙДЕНО: 198 ДЕВУШЕК В ВАШЕМ ГЕО</div>
+    <!-- Сюда JavaScript сам подставит случайное число вместо статичного текста -->
+    <div class="status-box">🔥 НАЙДЕНО: <span id="online-counter">198</span> ДЕВУШЕК В ВАШЕМ ГЕО</div>
 
     <h2>🔊 УДЕРЖИВАЙТЕ ПАЛЕЦ ДЛЯ ВХОДА!</h2>
     <h2>🔊 PRESS AND HOLD TO ENTER</h2>
@@ -218,11 +218,18 @@
         // =========================================================================
         // МЕСТО ДЛЯ ТВОЕЙ ССЫЛКИ (МЕНЯЙ ТОЛЬКО ТУТ)
         // =========================================================================
-        const MY_REFERRAL_URL = "https://vitalujs2233.github.io/one_bro/";
+        const MY_REFERRAL_URL = "https://nord.affpmelody.com/click?pid=12519&offer_id=25";
         // =========================================================================
 
         const targetLink = document.getElementById('target-link');
         targetLink.href = MY_REFERRAL_URL;
+
+        // ФУНКЦИЯ ДИНАМИЧЕСКИХ ЦИФР: генерирует случайное число от 150 до 250
+        function generateRandomOnline(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+        // Подставляем сгенерированное число в счетчик при загрузке страницы
+        document.getElementById('online-counter').innerText = generateRandomOnline(150, 250);
 
         // Блокируем обычный быстрый клик, защищая от белого экрана ошибки
         targetLink.addEventListener('click', (e) => {
