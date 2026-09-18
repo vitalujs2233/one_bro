@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница-заглушка</title>
+    <style>
+        /* Основные стили для черного экрана */
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+            user-select: none; /* Запрещаем выделение текста */
+            -webkit-user-select: none;
+        }
+
+        /* Стили для заголовков */
+        h2 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .subtitle {
+            color: #aaaaaa;
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+        }
+
+        /* Контейнер для отпечатка пальца (ссылка) */
+        .print-link {
+            display: inline-block;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease;
+            -webkit-touch-callout: default; /* Разрешает контекстное меню на iOS */
+        }
+
+        .print-link:active {
+            transform: scale(0.95); /* Эффект нажатия */
+        }
+
+        /* Стилизация графического элемента отпечатка */
+        .fingerprint-icon {
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle, #333 10%, transparent 60%);
+            border: 2px dashed #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        /* Внутренний кружок, имитирующий зону сканирования */
+        .fingerprint-icon::before {
+            content: "☝️"; /* Здесь можно использовать SVG-картинку отпечатка */
+            font-size: 3rem;
+        }
+
+        .print-text {
+            font-size: 1.1rem;
+            color: #ffffff;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>🔊 УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ!</h2>
+    <h2>🔊 PRESS AND HOLD YOUR FINGER ON THE PRINT</h2>
+
+    <p class="subtitle">Выберите "Открыть ссылку (в браузере)" / choose "open link"</p>
+
+    <!-- Ссылка, на которую будет срабатывать удержание. Замени '#' на нужный адрес -->
+    <a href="https://example.com" class="print-link">
+        <div class="fingerprint-icon"></div>
+        <div class="print-text">Отпечаток пальца</div>
+    </a>
+
+</body>
+</html>
