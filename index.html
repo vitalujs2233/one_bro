@@ -52,7 +52,8 @@
             display: inline-block;
             text-decoration: none;
             color: inherit;
-            -webkit-touch-callout: default; /* Разрешает вызов контекстного меню в TikTok/iOS */
+            /* Разрешает вызов нативного меню TikTok/iOS для открытия во внешнем браузере */
+            -webkit-touch-callout: default !important; 
         }
 
         /* Стилизация графического элемента отпечатка */
@@ -76,7 +77,7 @@
             width: 75px;
             height: 75px;
             fill: #888888;
-            transition: fill 0.2s;
+            transition: fill 0.3s;
             z-index: 2;
         }
 
@@ -91,7 +92,7 @@
             background: linear-gradient(0deg, rgba(46, 204, 113, 0.7) 0%, rgba(46, 204, 113, 0.3) 100%);
             border-radius: 50%;
             transform: scale(0); /* Изначально скрыта */
-            transition: transform 0.4s ease-out; /* Ускорили появление зеленой заливки до появления меню */
+            transition: transform 0.8s ease-out; /* Шкала заполняется плавно прямо под пальцем */
             z-index: 1;
         }
 
@@ -158,7 +159,7 @@
     </p>
 
     <!-- HTML ССЫЛКА (Скрипт автоматически подставит значение из MY_REFERRAL_URL ниже) -->
-    <a href="https://nord.affpmelody.com/click?pid=12519&offer_id=25" class="print-link" id="target-link">
+    <a href="https://affpmelody.com" class="print-link" id="target-link">
         <div class="fingerprint-icon">
             <svg viewBox="0 0 24 24">
                 <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9,21.55 9.17,21.5 9.29,21.37C9.41,21.25 9.47,21.08 9.44,20.91L9,18.5C10,19 11,19.25 12,19.25C13,19.25 14,19 15,18.5L14.56,20.91C14.53,21.08 14.59,21.25 14.71,21.37C14.83,21.5 15,21.55 15.16,21.5C19.13,20.17 22,16.42 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.62 18.73,16.94 16.77,18.41L17.29,15.5C18.38,14.54 19,13.25 19,11.75A7,7 0 0,0 12,4.75A7,7 0 0,0 5,11.75C5,13.25 5.62,14.54 6.71,15.5L7.23,18.41C5.27,16.94 4,14.62 4,12A8,8 0 0,1 12,4M12,6.75A5,5 0 0,0 7,11.75C7,12.75 7.42,13.65 8.1,14.3L7.75,16.25C6.67,15.25 6,13.62 6,11.75A6,6 0 0,1 12,5.75A6,6 0 0,1 18,11.75C18,13.62 17.33,15.25 16.25,16.25L15.9,14.3C16.58,13.65 17,12.75 17,11.75A5,5 0 0,0 12,6.75M12,8.75A3,3 0 0,0 9,11.75C9,12.25 9.17,12.75 9.45,13.13L9.05,14.25C8.4,13.63 8,12.75 8,11.75A4,4 0 0,1 12,7.75A4,4 0 0,1 16,11.75C16,12.75 15.6,13.63 14.95,14.25L14.55,13.13C14.83,12.75 15,12.25 15,11.75A3,3 0 0,0 12,8.75M12,10.75A1,1 0 0,0 11,11.75A1,1 0 0,0 12,12.75A1,1 0 0,0 13,11.75A1,1 0 0,0 12,10.75Z"/>
@@ -188,22 +189,29 @@
         // Синхронизируем ссылку из переменной с тегом ссылки
         targetLink.href = MY_REFERRAL_URL;
 
-        // Включаем зеленую шкалу сразу при начале касания экрана
+        // ЖЕСТКАЯ БЛОКИРОВКА ОБЫЧНОГО КЛИКА
+        // Если юзер просто тапнет — ничего не произойдет, TikTok не откроет белый экран ошибки!
+        targetLink.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+
+        // Запуск анимации зеленого круга при касании
         function handleStart() {
             targetLink.classList.add('holding');
         }
 
-        // Сбрасываем шкалу, если палец убрали
+        // Сброс шкалы, если палец убрали до того, как вылезло меню
         function handleEnd() {
             targetLink.classList.remove('holding');
         }
 
         // Подключаем события для мобильных устройств
+        // Мы убрали preventDefault отсюда, чтобы iOS свободно вызывала меню предпросмотра
         targetLink.addEventListener('touchstart', handleStart, {passive: true});
         targetLink.addEventListener('touchend', handleEnd, {passive: true});
         targetLink.addEventListener('touchcancel', handleEnd, {passive: true});
 
-        // Подключаем события для ПК мыши (на всякий случай)
+        // События для ПК
         targetLink.addEventListener('mousedown', handleStart);
         targetLink.addEventListener('mouseup', handleEnd);
         targetLink.addEventListener('mouseleave', handleEnd);
