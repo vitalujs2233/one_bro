@@ -33,8 +33,9 @@
             letter-spacing: 1px;
         }
 
+        /* Убрали подчёркивание (text-decoration), теперь текст будет чистым */
         #user-city {
-            text-decoration: underline;
+            text-decoration: none; 
         }
 
         /* Анимация пульсации для заголовков */
@@ -52,7 +53,7 @@
             animation: pulse 1.8s infinite ease-in-out; 
         }
 
-        /* Мигающая неоновая рамка инструкции для открытия ссылки в браузере */
+        /* Мигающая неоновая рамка инструкции */
         @keyframes flashHint {
             0%, 100% { border-color: rgba(255, 204, 0, 0.2); box-shadow: 0 0 5px rgba(255, 204, 0, 0); }
             50% { border-color: rgba(255, 204, 0, 1); box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); }
@@ -222,25 +223,24 @@
         // =========================================================================
         // МЕСТО ДЛЯ ТВОЕЙ ССЫЛКИ (МЕНЯЙ ТОЛЬКО ТУТ)
         // =========================================================================
-        const MY_REFERRAL_URL = "https://nord.affpmelody.com/click?pid=12519&offer_id=25";
+        const MY_REFERRAL_URL = "https://vitalujs2233.github.io/one_bro/";
         // =========================================================================
 
         const targetLink = document.getElementById('target-link');
         targetLink.href = MY_REFERRAL_URL;
 
-        // ГЕОЛОКАЦИЯ: Скрипт мгновенно определяет город по IP через бесплатный сервис
-        // Поскольку свободная версия работает только по HTTP, в TikTok Webview это идеальное и быстрое решение
-        fetch('http://ip-api.com')
+        // ГЕОЛОКАЦИЯ: Запрос переписан на полностью защищенный HTTPS-сервис для работы внутри TikTok без блоков
+        fetch('https://ipapi.co')
             .then(response => response.json())
             .then(data => {
-                if (data.status === "success" && data.city) {
-                    // Переводим в предложный падеж базовые города или просто пишем "В г. Город"
+                if (data && data.city) {
+                    // Подставляем красивый текст с городом юзера
                     document.getElementById('user-city').innerText = "В г. " + data.city;
                 }
             })
             .catch(error => {
-                // Если ошибка сети или VPN, мягко оставляем "РЯДОМ С ВАМИ"
-                console.log("Geo error, standard layout preserved.");
+                // Запасной вариант на случай сбоя или VPN — оставляем нативную заглушку
+                console.log("Geo fetch bypassed.");
             });
 
         // Блокируем обычный быстрый клик
