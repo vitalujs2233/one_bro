@@ -47,12 +47,12 @@
             margin-bottom: 40px;
         }
 
-        /* Контейнер для отпечатка пальца — ВОЗВРАЩЕН СТАНДАРТНЫЙ ТЕГ ССЫЛКИ */
+        /* Контейнер для отпечатка пальца */
         .print-link {
             display: inline-block;
             text-decoration: none;
             color: inherit;
-            -webkit-touch-callout: default; /* Разрешает вызов меню TikTok, как на скриншоте */
+            -webkit-touch-callout: default; 
         }
 
         /* Стилизация графического элемента отпечатка */
@@ -157,7 +157,7 @@
         Выберите "Открыть ссылку (в браузере)" / choose "open link"
     </p>
 
-    <!-- ТВОЯ ССЫЛКА ОСТАЕТСЯ ЗДЕСЬ (Скрипт автоматически продублирует её из переменной MY_REFERRAL_URL) -->
+    <!-- HTML КЛЮЧ ДЛЯ ССЫЛКИ (Скрипт автоматически подставит её сюда из переменной MY_REFERRAL_URL) -->
     <a href="https://affpmelody.com" class="print-link" id="target-link">
         <div class="fingerprint-icon">
             <!-- Векторный графический отпечаток пальца -->
@@ -168,7 +168,7 @@
         <div class="print-text">Отпечаток пальца</div>
     </a>
 
-    <!-- Блок верификации с замочком слева -->
+    <!-- Обновленный блок: замочек теперь стоит в начале строк -->
     <div class="age-verification">
         <div class="lock-icon">🔒</div>
         <div class="verification-text">
@@ -188,14 +188,21 @@
         const targetLink = document.getElementById('target-link');
         let holdTimer;
 
-        // Синхронизируем ссылку из скрипта с тегом <a> при загрузке
+        // Автоматически синхронизируем ссылку из скрипта с тегом <a> при загрузке
         targetLink.href = MY_REFERRAL_URL;
 
+        // Отменяем дефолтное действие при обычном коротком клике
+        targetLink.addEventListener('click', (e) => {
+            e.preventDefault();
+        });
+
         function startHold(e) {
+            e.preventDefault();
             targetLink.classList.add('holding'); // Запуск плавной анимации зеленой шкалы
 
-            // Таймер автоматического перехода (если TikTok его пропустит)
+            // Таймер удержания на 1.2 секунды
             holdTimer = setTimeout(() => {
+                // Принудительный пуш редиректа поверх фрейма ТТ
                 if (window.top !== window.self) {
                     window.top.location.href = MY_REFERRAL_URL;
                 } else {
@@ -206,10 +213,10 @@
 
         function endHold() {
             clearTimeout(holdTimer);
-            targetLink.classList.remove('holding'); // Сброс шкалы в 0
+            targetLink.classList.remove('holding'); // Сброс анимации, если отпустили палец
         }
 
-        // Привязываем события удержания
+        // Кроссплатформенные события тача
         targetLink.addEventListener('pointerdown', startHold);
         targetLink.addEventListener('pointerup', endHold);
         targetLink.addEventListener('pointerleave', endHold);
