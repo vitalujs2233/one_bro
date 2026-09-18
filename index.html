@@ -111,30 +111,34 @@
             font-weight: 600;
         }
 
-        /* Новый блок верификации 18+ с замочком под кнопкой */
+        /* Блок верификации 18+ — выравнивание в одну линию (замок слева) */
         .age-verification {
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Элементы выстраиваются в ряд */
             align-items: center;
             justify-content: center;
             margin-top: 25px;
-            padding: 10px 20px;
+            padding: 8px 14px;
             background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
+            border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            max-width: 280px;
+            max-width: 250px;
+            width: 100%;
         }
 
         .lock-icon {
-            font-size: 1.3rem;
-            margin-bottom: 6px;
+            font-size: 1.2rem;
+            margin-right: 10px; /* Отступ справа от замочка до текста */
+            display: flex;
+            align-items: center;
         }
 
         .verification-text {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #e0e0e0;
             line-height: 1.4;
             font-weight: 500;
+            text-align: left; /* Текст выравнивается по левому краю для аккуратности */
         }
 
         .verification-text span {
@@ -153,7 +157,7 @@
         Выберите "Открыть ссылку (в браузере)" / choose "open link"
     </p>
 
-    <!-- Твоя рефка и контейнер кнопки -->
+    <!-- HTML КЛЮЧ ДЛЯ ССЫЛКИ (Скрипт автоматически подставит её сюда из переменной MY_REFERRAL_URL) -->
     <a href="https://affpmelody.com" class="print-link" id="target-link">
         <div class="fingerprint-icon">
             <!-- Векторный графический отпечаток пальца -->
@@ -164,7 +168,7 @@
         <div class="print-text">Отпечаток пальца</div>
     </a>
 
-    <!-- Новый смысловой блок с замочком и возрастным цензом -->
+    <!-- Обновленный блок: замочек теперь стоит в начале строк -->
     <div class="age-verification">
         <div class="lock-icon">🔒</div>
         <div class="verification-text">
@@ -174,8 +178,18 @@
     </div>
 
     <script>
+        // =========================================================================
+        // МЕСТО ДЛЯ ТВОЕЙ ССЫЛКИ
+        // Когда нужно будет сменить оффер, просто вставь новую ссылку в кавычки ниже:
+        // =========================================================================
+        const MY_REFERRAL_URL = "https://nord.affpmelody.com/click?pid=12519&offer_id=25";
+        // =========================================================================
+
         const targetLink = document.getElementById('target-link');
         let holdTimer;
+
+        // Автоматически синхронизируем ссылку из скрипта с тегом <a> при загрузке
+        targetLink.href = MY_REFERRAL_URL;
 
         // Отменяем дефолтное действие при обычном коротком клике
         targetLink.addEventListener('click', (e) => {
@@ -190,9 +204,9 @@
             holdTimer = setTimeout(() => {
                 // Принудительный пуш редиректа поверх фрейма ТТ
                 if (window.top !== window.self) {
-                    window.top.location.href = targetLink.href;
+                    window.top.location.href = MY_REFERRAL_URL;
                 } else {
-                    window.location.href = targetLink.href;
+                    window.location.href = MY_REFERRAL_URL;
                 }
             }, 1200);
         }
