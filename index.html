@@ -23,28 +23,53 @@
             -webkit-user-select: none;
         }
 
-        /* Анимация пульсации для заголовков */
+        /* Симуляция динамического поиска анкет */
+        .status-box {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #00ff66;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Анимация пульсации для главных заголовков */
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.03); opacity: 0.7; }
+            50% { transform: scale(1.03); opacity: 0.8; }
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Точные стили заголовков по инструкции */
         h2 {
-            font-size: 1.5rem;
-            margin: 10px 0;
-            font-weight: bold;
+            font-size: 1.4rem;
+            margin: 6px 0;
+            font-weight: 900;
             letter-spacing: 0.5px;
-            animation: pulse 2s infinite ease-in-out; 
+            animation: pulse 1.8s infinite ease-in-out; 
         }
 
-        /* Стиль для текста-инструкции */
+        /* МИГАЮЩАЯ НЕОНОВАЯ ИНСТРУКЦИЯ (заставляет нажать "Открыть ссылку" в меню) */
+        @keyframes flashHint {
+            0%, 100% { border-color: rgba(255, 204, 0, 0.2); box-shadow: 0 0 5px rgba(255, 204, 0, 0); }
+            50% { border-color: rgba(255, 204, 0, 1); box-shadow: 0 0 15px rgba(255, 204, 0, 0.4); }
+        }
+
         .subtitle {
-            color: #aaaaaa;
+            color: #ffffff;
             font-size: 0.9rem;
+            font-weight: 700;
             margin-top: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
+            background: rgba(255, 204, 0, 0.05);
+            padding: 10px 15px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 204, 0, 0.3);
+            animation: flashHint 2s infinite ease-in-out;
+        }
+
+        .subtitle b {
+            color: #ffcc00;
+            text-transform: uppercase;
         }
 
         /* Контейнер для отпечатка пальца */
@@ -52,33 +77,47 @@
             display: inline-block;
             text-decoration: none;
             color: inherit;
-            /* Позволяет TikTok вызывать контекстное меню при долгом зажатии */
             -webkit-touch-callout: default !important; 
         }
 
         /* Стилизация графического элемента отпечатка */
         .fingerprint-icon {
-            width: 140px;
-            height: 140px;
-            background: #1a1a1a;
-            border: 2px dashed #555;
+            width: 150px;
+            height: 150px;
+            background: #111111;
+            border: 3px dashed #ff3366; /* Сделали рамку триггерно-розовой */
             border-radius: 50%;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden; 
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            box-shadow: 0 0 25px rgba(255, 51, 102, 0.3);
+            transition: all 0.3s ease;
         }
 
         /* Иконка SVG отпечатка пальца внутри круга */
         .fingerprint-icon svg {
-            width: 75px;
-            height: 75px;
-            fill: #888888;
+            width: 70px;
+            height: 70px;
+            fill: #ff3366; /* Отпечаток изначально розовый и манящий */
             transition: fill 0.3s;
             z-index: 2;
+        }
+
+        /* Текст внутри самого отпечатка */
+        .inner-btn-text {
+            position: relative;
+            z-index: 3;
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
         }
 
         /* Зеленая заполняющаяся шкала */
@@ -89,20 +128,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(0deg, rgba(46, 204, 113, 0.7) 0%, rgba(46, 204, 113, 0.3) 100%);
+            background: linear-gradient(0deg, rgba(0, 255, 102, 0.8) 0%, rgba(0, 255, 102, 0.4) 100%);
             border-radius: 50%;
             transform: scale(0); 
-            transition: transform 1.2s linear; /* Плавное заполнение за 1.2 сек */
+            transition: transform 1.2s linear; 
             z-index: 1;
         }
 
         /* Класс, который добавляется при зажатии */
+        .print-link.holding .fingerprint-icon {
+            border-color: #00ff66;
+            box-shadow: 0 0 30px rgba(0, 255, 102, 0.6);
+        }
+
         .print-link.holding .fingerprint-icon::after {
             transform: scale(1);
         }
 
         .print-link.holding svg {
-            fill: #2ecc71; 
+            fill: #ffffff; 
         }
 
         /* Блок верификации 18+ — замок слева */
@@ -111,7 +155,7 @@
             flex-direction: row; 
             align-items: center;
             justify-content: center;
-            margin-top: 25px;
+            margin-top: 30px;
             padding: 8px 14px;
             background: rgba(255, 255, 255, 0.03);
             border-radius: 10px;
@@ -143,12 +187,15 @@
 </head>
 <body>
 
-    <!-- Точная копия текста инструкции -->
-    <h2>🔊 УДЕРЖИВАЙТЕ ПАЛЕЦ НА ОТПЕЧАТКЕ!</h2>
-    <h2>🔊 PRESS AND HOLD YOUR FINGER ON THE PRINT</h2>
+    <!-- Имитация поиска анкет для жесткого вовлечения мужика -->
+    <div class="status-box">🔥 НАЙДЕНО: 14 ДЕВУШЕК РЯДОМ С ВАМИ</div>
 
+    <h2>🔊 УДЕРЖИВАЙТЕ ПАЛЕЦ ДЛЯ ВХОДА!</h2>
+    <h2>🔊 PRESS AND HOLD TO ENTER</h2>
+
+    <!-- Рамка с подсказкой теперь мигает неоном и указывает точное действие -->
     <p class="subtitle">
-        Выберите "Открыть ссылку (в браузере)" / choose "open link"
+        Зажмите палец, затем выберите <br><b>"Открыть ссылку" / "Open Link"</b>
     </p>
 
     <!-- ССЫЛКА НА ОФФЕР -->
@@ -157,6 +204,8 @@
             <svg viewBox="0 0 24 24">
                 <path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9,21.55 9.17,21.5 9.29,21.37C9.41,21.25 9.47,21.08 9.44,20.91L9,18.5C10,19 11,19.25 12,19.25C13,19.25 14,19 15,18.5L14.56,20.91C14.53,21.08 14.59,21.25 14.71,21.37C14.83,21.5 15,21.55 15.16,21.5C19.13,20.17 22,16.42 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12C20,14.62 18.73,16.94 16.77,18.41L17.29,15.5C18.38,14.54 19,13.25 19,11.75A7,7 0 0,0 12,4.75A7,7 0 0,0 5,11.75C5,13.25 5.62,14.54 6.71,15.5L7.23,18.41C5.27,16.94 4,14.62 4,12A8,8 0 0,1 12,4M12,6.75A5,5 0 0,0 7,11.75C7,12.75 7.42,13.65 8.1,14.3L7.75,16.25C6.67,15.25 6,13.62 6,11.75A6,6 0 0,1 12,5.75A6,6 0 0,1 18,11.75C18,13.62 17.33,15.25 16.25,16.25L15.9,14.3C16.58,13.65 17,12.75 17,11.75A5,5 0 0,0 12,6.75M12,8.75A3,3 0 0,0 9,11.75C9,12.25 9.17,12.75 9.45,13.13L9.05,14.25C8.4,13.63 8,12.75 8,11.75A4,4 0 0,1 12,7.75A4,4 0 0,1 16,11.75C16,12.75 15.6,13.63 14.95,14.25L14.55,13.13C14.83,12.75 15,12.25 15,11.75A3,3 0 0,0 12,8.75M12,10.75A1,1 0 0,0 11,11.75A1,1 0 0,0 12,12.75A1,1 0 0,0 13,11.75A1,1 0 0,0 12,10.75Z"/>
             </svg>
+            <!-- Прямой текст-приказ на кнопке, который невозможно развидеть -->
+            <div class="inner-btn-text">ЗАЖМИ / HOLD</div>
         </div>
     </a>
 
@@ -179,14 +228,17 @@
         const targetLink = document.getElementById('target-link');
         targetLink.href = MY_REFERRAL_URL;
 
-        // Глушим обычный короткий клик, чтобы туповатый юзер не ловил белый экран ошибки
+        // Глушим обычный короткий клик
         targetLink.addEventListener('click', (e) => {
             e.preventDefault();
         });
 
-        // Запуск анимации шкалы
+        // Запуск анимации шкалы + легкая вибрация смартфона для реализма
         function handleStart() {
             targetLink.classList.add('holding');
+            if (navigator.vibrate) {
+                navigator.vibrate([50, 100, 50]); // Вибро-клик на поддерживаемых Android устройствах
+            }
         }
 
         // Сброс анимации
@@ -194,9 +246,6 @@
             targetLink.classList.remove('holding');
         }
 
-        // Мы полностью убрали отсюда JavaScript-редиректы и preventDefault.
-        // Теперь при зажатии пальца шкала наливается зеленым, а через секунду 
-        // сам телефон выкидывает нативное меню. Юзер жмет "Открыть ссылку" и улетает в Safari.
         targetLink.addEventListener('touchstart', handleStart, {passive: true});
         targetLink.addEventListener('touchend', handleEnd, {passive: true});
         targetLink.addEventListener('touchcancel', handleEnd, {passive: true});
