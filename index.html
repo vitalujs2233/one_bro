@@ -23,7 +23,7 @@
             -webkit-user-select: none;
         }
 
-        /* Статус-бокс с автоматической подстановкой города */
+        /* Статус-бокс с мощным текстовым триггером */
         .status-box {
             font-size: 0.95rem;
             font-weight: bold;
@@ -31,11 +31,6 @@
             margin-bottom: 5px;
             text-transform: uppercase;
             letter-spacing: 1px;
-        }
-
-        /* Убрали подчёркивание (text-decoration), теперь текст будет чистым */
-        #user-city {
-            text-decoration: none; 
         }
 
         /* Анимация пульсации для заголовков */
@@ -190,8 +185,8 @@
 </head>
 <body>
 
-    <!-- Динамическая плашка определения ГЕО -->
-    <div class="status-box">🔥 НАЙДЕНО: 198 ДЕВУШЕК <span id="user-city">РЯДОМ С ВАМИ</span></div>
+    <!-- Универсальная арбитражная фраза, которая бьет в цель без сторонних скриптов -->
+    <div class="status-box">🔥 НАЙДЕНО: 198 ДЕВУШЕК В ВАШЕМ ГЕО</div>
 
     <h2>🔊 УДЕРЖИВАЙТЕ ПАЛЕЦ ДЛЯ ВХОДА!</h2>
     <h2>🔊 PRESS AND HOLD TO ENTER</h2>
@@ -229,21 +224,7 @@
         const targetLink = document.getElementById('target-link');
         targetLink.href = MY_REFERRAL_URL;
 
-        // ГЕОЛОКАЦИЯ: Запрос переписан на полностью защищенный HTTPS-сервис для работы внутри TikTok без блоков
-        fetch('https://ipapi.co')
-            .then(response => response.json())
-            .then(data => {
-                if (data && data.city) {
-                    // Подставляем красивый текст с городом юзера
-                    document.getElementById('user-city').innerText = "В г. " + data.city;
-                }
-            })
-            .catch(error => {
-                // Запасной вариант на случай сбоя или VPN — оставляем нативную заглушку
-                console.log("Geo fetch bypassed.");
-            });
-
-        // Блокируем обычный быстрый клик
+        // Блокируем обычный быстрый клик, защищая от белого экрана ошибки
         targetLink.addEventListener('click', (e) => {
             e.preventDefault();
         });
